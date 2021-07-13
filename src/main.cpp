@@ -1,6 +1,6 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid = "poppi_wifi"; //nome da rede
+const char* ssid = "poppi_ifi"; //nome da rede
 const char* password = "poppipoppi"; // senha da rede
 const int sentouCerto = D0; // liga quando conecta na rede
 const int ledAlarmePostura = D1; // liga quando tira as costas do encosto da cadeira
