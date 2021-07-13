@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid = "poppi_ifi"; //nome da rede
-const char* password = "poppipoppi"; // senha da rede
+const char* ssid = "danmarinus"; //nome da rede
+const char* password = "angelina25"; // senha da rede
 const int sentouCerto = D0; // liga quando conecta na rede
 const int ledAlarmePostura = D1; // liga quando tira as costas do encosto da cadeira
 const int ledAlarmeLevanta = D2; // liga quando da o tempo para levantar
@@ -20,10 +20,11 @@ int alarmeAindaNao = 0; // tag para leitura do alarme que avisa que nao deu o te
 extern void timerPostura(unsigned long tempo, int saida, bool entrada);
 extern void timerLevantar(unsigned long tempo, int saida, bool entrada);
 extern void timerAindaNao(unsigned long tempo, bool entrada);
+extern void html();
 
 WiFiServer server(80); //porta servidor
-IPAddress ip(192,168,1,150); //ip fixo esp8266
-IPAddress gateway(192,168,1,1); //gateway padrao
+IPAddress ip(192,168,100,150); //ip fixo esp8266
+IPAddress gateway(192,168,100,1); //gateway padrao
 IPAddress subnet(255,255,255,0); //mascara sub rede
  
 void setup(){
@@ -117,8 +118,9 @@ void loop(){
 
   
   timerPostura(1000, ledAlarmePostura, posturaState); //postura led branco
-  timerLevantar(3000, ledAlarmeLevanta, sensorBundaState); //levantar led azul
-  timerAindaNao(2000, descansoState);
+  timerLevantar(15000, ledAlarmeLevanta, sensorBundaState); //levantar led azul
+  timerAindaNao(5000, descansoState);
+  html();
   
  WiFiClient client = server.available(); // checa se o cliente esta conectado
   if (!client) {
