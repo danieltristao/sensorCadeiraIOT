@@ -13,6 +13,9 @@ bool sensorCostaState = false; // estado ligado/desligado do sensor das costas
 bool posturaState = false;
 bool seloAlarmeLevanta = false;
 bool descansoState = false;
+bool contaAlarmeDescanso = false;
+bool contaLevantouDescansar = false;
+int bitAlarmeLevanta = 0;
 int alarmePostura = 0; // tag para leitura do alarme de postura
 int alarmeLevanta = 0; // tag para leitura do alarme para levantar da cadeira
 int alarmeAindaNao = 0; // tag para leitura do alarme que avisa que nao deu o tempo de descanco
@@ -85,70 +88,51 @@ void loop(){
     posturaState = false;
   }
 
-  if(alarmeLevanta == 1){
+  if(bitAlarmeLevanta == 1){
     seloAlarmeLevanta = true;
   }
-  else{    
+  else{
   }
 
   if(seloAlarmeLevanta == true){
-    if((sensorCostaState == false) && (sensorBundaState == false)){
-      descansoState = true;          
-    }
-    else{      
-    }
-
-    if(descansoState == true){
-      if(sensorBundaState == true){
+      if((sensorCostaState == false) && (sensorBundaState == false)){
+        descansoState = true;  
         digitalWrite(ledAlarmeAindaNao, HIGH);
+        if(contaLevantouDescansar == false){
+            alarmeLevanta++;
+            contaLevantouDescansar = true;
+        }
+        else{     
+        }                
       }
-      else{
-        digitalWrite(ledAlarmeAindaNao, LOW);        
-      }
-
-    }
-    else{      
-    }
+      else{  
+        digitalWrite(ledAlarmeAindaNao, LOW);            
+      }       
+  
     
+    if((sensorBundaState == true) && (descansoState == true) && (contaAlarmeDescanso == false)){
+      alarmeAindaNao ++;
+      contaAlarmeDescanso = true;
+      
+    }
+    else{
+    }
+  
   }
   else{ 
     descansoState = false;
     digitalWrite(ledAlarmeAindaNao, LOW);
+    contaAlarmeDescanso = false;
+    contaLevantouDescansar = false;
   }
 
   
-  timerPostura(1000, ledAlarmePostura, posturaState); //postura led branco
-  timerLevantar(15000, ledAlarmeLevanta, sensorBundaState); //levantar led azul
-  timerAindaNao(5000, descansoState);
+
+  
+  timerPostura(3000, ledAlarmePostura, posturaState); //postura led branco
+  timerLevantar(10000, ledAlarmeLevanta, sensorBundaState); //levantar led azul
+  timerAindaNao(6000, descansoState);
   html();
-  
- WiFiClient client = server.available(); // checa se o cliente esta conectado
-  if (!client) {
-    return;
-  }
     
-  String req = client.readStringUntil('\r');      
-  client.println(F("HTTP/1.1 200 OK")); //config html
-  client.println(F("Content-Type: text/html"));
-  client.println("Connection: keep-alive"); 
-  client.println();
-  client.println(F("<!DOCTYPE html>")); //conteudo pagina html
-  client.println("<html>");
-  client.println("<head>");
-  client.println("<title> trem do clovis </title>");
-  client.println("</head>");
-  client.print(F("<h1>"));
-  client.print(F("Alarme Postura "));
-  client.println(alarmePostura);
-  client.print(F("<br></br>"));
-  client.print(F("Alarme Levanta da Cadeira  "));
-  client.println(alarmeLevanta);
-  client.print(F("<br></br>"));
-  client.print(F("Alarme Ainda nao pode sentar "));
-  client.println(alarmeAindaNao);
-  client.print(F("<br></br>"));
-  client.print(F("</h1>"));
-  client.print(F("</html>")); //termina conteudo html
-  
 }
  

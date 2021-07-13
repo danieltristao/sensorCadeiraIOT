@@ -2,8 +2,7 @@
 
 bool bitTimerLevantar = false;
 unsigned long retardoLevantar = 0;
-extern int alarmeLevanta;
-
+extern int bitAlarmeLevanta;
 
 void timerLevantar(unsigned long tempo, int saida, bool entrada){
                
@@ -20,17 +19,18 @@ void timerLevantar(unsigned long tempo, int saida, bool entrada){
 
     if(entrada == true){
         if((millis() - retardoLevantar) > tempo){
-            digitalWrite(saida, HIGH);
-            alarmeLevanta = 1;                                                                    
+            digitalWrite(saida, HIGH); 
+            bitAlarmeLevanta = 1;
+                                                                                        
         }
         else{            
         }
     }
     else{
-        digitalWrite(saida, LOW);   
-        alarmeLevanta = 0;                                 
+        digitalWrite(saida, LOW);                                          
         bitTimerLevantar = false;
-        retardoLevantar = 0;
+        retardoLevantar = 0;    
+        bitAlarmeLevanta = 0;    
     } 
 
          

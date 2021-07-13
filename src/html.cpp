@@ -28,7 +28,7 @@ void html(){
   client.print(F("Alarme Postura "));
   client.println(alarmePostura);
   client.print(F("<br></br>"));
-  client.print(F("Alarme Levanta da Cadeira  "));
+  client.print(F("Levantou para descancar  "));
   client.println(alarmeLevanta);
   client.print(F("<br></br>"));
   client.print(F("Alarme Ainda nao pode sentar "));

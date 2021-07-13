@@ -3,6 +3,7 @@
 bool bitTimerPostura = false;
 unsigned long retardoPostura = 0;
 extern int alarmePostura;
+bool contaAlarmePostura = false;
 
 void timerPostura(unsigned long tempo, int saida, bool entrada){
                  
@@ -19,17 +20,20 @@ void timerPostura(unsigned long tempo, int saida, bool entrada){
 
     if(entrada == true){
         if((millis() - retardoPostura) > tempo){
-            digitalWrite(saida, HIGH);  
-            alarmePostura = 1;                                  
+            digitalWrite(saida, HIGH); 
+            if(contaAlarmePostura == false){
+                alarmePostura++;
+                contaAlarmePostura = true;
+            }                                                 
         }
         else{            
         }
     }
     else{
-        digitalWrite(saida, LOW);  
-        alarmePostura = 0;             
+        digitalWrite(saida, LOW);                      
         bitTimerPostura = false;
-        retardoPostura = 0;
+        retardoPostura = 0;  
+        contaAlarmePostura = false;      
     }   
     
 }

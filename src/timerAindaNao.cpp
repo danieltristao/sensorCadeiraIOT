@@ -5,8 +5,6 @@ unsigned long retardoAindaNao = 0;
 extern int alarmeAindaNao;
 extern bool seloAlarmeLevanta;
 
-
-
 void timerAindaNao(unsigned long tempo, bool entrada){
                
     if (bitTimerAindaNao == false){
